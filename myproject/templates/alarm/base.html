@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+{% load pages_tags mezzanine_tags i18n future %}
+<html>
+<head>
+
+<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width">
+<meta name="keywords" content="{% block meta_keywords %}{% endblock %}">
+<meta name="description" content="{% block meta_description %}{% endblock %}">
+<title>{% block meta_title %}{% endblock %}{% if settings.SITE_TITLE %} | {{ settings.SITE_TITLE }}{% endif %}</title>
+<link rel="shortcut icon" href="{{ STATIC_URL }}img/favicon.ico">
+
+{% ifinstalled mezzanine.blog %}
+<link rel="alternate" type="application/rss+xml" title="RSS" href="{% url "blog_post_feed" "rss" %}">
+<link rel="alternate" type="application/atom+xml" title="Atom" href="{% url "blog_post_feed" "atom" %}">
+{% endifinstalled %}
+
+{% compress css %}
+    <link href="https://s3.amazonaws.com/wpl_public/bootstrap/normalize.css" rel="stylesheet"/>
+    <link href="https://s3.amazonaws.com/wpl_public/bootstrap/bootstrap.min.css" rel="stylesheet"/>
+    <link href="https://s3.amazonaws.com/wpl_public/bootstrap/bootstrap-responsive.min.css" rel="stylesheet"/>
+    <link href="https://s3.amazonaws.com/wpl_public/bootstrap/font-awesome.min.css" rel="stylesheet"/>
+    <link href="https://s3.amazonaws.com/wpl_public/bootstrap/bootswatch.css" rel="stylesheet"/>
+    <link href="https://s3.amazonaws.com/wpl_public/bootstrap/variables.less" rel="stylesheet"/>
+    <link href="https://s3.amazonaws.com/wpl_public/bootstrap/bootswatch.less" rel="stylesheet"/>
+    <link rel="stylesheet" media="screen" href="https://s3.amazonaws.com/wpl_public/static/css/flexslider.css"/>
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/responsiveslides.css">
+    <link href="{{ STATIC_URL }}css/wpl-custom.css" rel="stylesheet" />
+    <link href='http://fonts.googleapis.com/css?family=Russo+One|Black+Ops+One|Audiowide' rel='stylesheet' type='text/css'>
+  {% block extra_css %}{% endblock %}
+{% endcompress %}
+
+
+{% compress js %}
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="https://s3.amazonaws.com/wpl_public/static/js/bootstrap.min.js"></script>
+    <script src="https://s3.amazonaws.com/wpl_public/static/js/bootswatch.js"></script>
+    <script src="{{ STATIC_URL }}js/responsiveslides.min.js"></script>
+    <script src="https://s3.amazonaws.com/wpl_public/static/js/jquery.flexslider-min.js" type="text/javascript"></script>
+<script>
+$(function() {
+    $('.middleinput:text, textarea').addClass('xlarge');
+    $('.control-group label').addClass('control-label');
+    if($(window).width() < 959)
+    {
+        $('#slider').flexslider({
+            directionNav: true,
+            controlNav: false
+        });
+    }
+    else
+    {
+        $('#slider').flexslider({
+            animation: "slide",
+            controlNav: true,
+            directionNav: true,
+            animationLoop: true,
+            slideshow: true,
+            sync: "#thumb-slider"
+        });
+    }
+});
+</script>
+
+{% block extra_js %}{% endblock %}
+{% endcompress %}
+<!--[if lt IE 9]>
+<script src="{{ STATIC_URL }}js/html5shiv.js"></script>
+<![endif]-->
+
+{% block extra_head %}{% endblock %}
+
+</head>
+
+
+
+
+
+<body class="static-nav-body" id="top" data-spy="scroll" data-offset="80">
+
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> <span class="icon-bar"></span>
+                <span class="icon-bar"></span> <span class="icon-bar"></span>
+            </a>
+            <a class="brand" href="/"><img src="{{ STATIC_URL }}img/alarmlogo200x67.png" alt="Link Security" /></a>
+          {% if settings.SITE_TAGLINE %}<p class="tagline visible-desktop">{{ settings.SITE_TAGLINE }}</p>{% endif %}
+            <div class="nav-collapse collapse" id="main-menu">
+              {% page_menu "pages/menus/dropdown.html" %}
+            </div>
+        </div>
+    </div>
+</div>
+{% block slides %}{% endblock %}
+<header class="subhead" id="overview">
+<div class="container">
+  {% nevercache %}
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}" data-alert="alert">
+            <a class="close" href="#" onclick="$(this).parent().fadeOut('fast'); return false;">×</a>{{ message }}
+        </div>
+    {% endfor %}
+  {% endnevercache %}
+
+        <div class="row">
+            <div class="span6">
+
+    <h1>{% block title %}{% endblock %}</h1>
+            </div>
+            <div class="span6">
+                <ul class="breadcrumb">
+                  {% spaceless %}
+                    {% block breadcrumb_menu %}{% page_menu "pages/menus/breadcrumb.html" %}{% endblock %}
+                  {% endspaceless %}
+                </ul>
+            </div>
+        </div>
+{% block extra_header %}{% endblock extra_header %}
+</div>
+    </header>
+
+{% block upper_main %}
+    <div class="container">
+    <div class="row">
+{% endblock %}
+
+
+<div class="span2 left">
+    {% block left_panel %}
+    <div class="panel tree">{% page_menu "pages/menus/tree.html" %}</div>
+    {% endblock %}
+</div>
+
+<div class="span7 middle">
+    {% block main %}{% endblock %}
+</div>
+
+<div class="span3 right">
+    {% nevercache %}
+    {% include "includes/user_panel.html" %}
+    {% endnevercache %}
+    <div class="panel">
+    {% block right_panel %}
+    {% ifinstalled mezzanine.twitter %}
+    {% include "twitter/tweets.html" %}
+    {% endifinstalled %}
+    {% endblock %}
+    </div>
+</div>
+
+{% block lower_main %}
+</div>
+</div>
+{% endblock lower_main %}
+
+<footer>
+<div class="container">
+<p>
+    {% trans "Framework by" %}
+    <a href="http://mezzanine.jupo.org">Mezzanine</a>{% ifinstalled cartridge.shop %},
+    <a href="http://cartridge.jupo.org">Cartridge</a>{% endifinstalled %}
+    {% trans "and" %}
+    <a href="http://www.djangoproject.com">Django</a>
+    <span class="separator">|</span>
+    {% trans "Powered by" %} <a href="http://webpowerlabs.com">Tucson Web Design</a>
+    {% ifinstalled mezzanine.mobile %}
+    <span class="separator">|</span>
+    <a href="{% url "set_device" "mobile" %}?next={{ request.path }}">{% trans "View Mobile Site" %}</a>
+    {% endifinstalled %}
+
+    </p>
+</div>
+</footer>
+
+{% include "includes/footer_scripts.html" %}
+{% block extra_footer_js %}
+{% endblock %}
+
+
+
+</body>
+</html>

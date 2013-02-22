@@ -1,0 +1,22 @@
+{% load pages_tags i18n future %}
+
+{% spaceless %}
+    <ul class="nav active-branch">
+        {% for page in page_branch %}
+          {% if page.is_current_or_ascendant %}
+              <li id="active-branch-menu-{{ page.html_id }}" class="{% if page.is_current %} active{% endif %}
+              {% if page.is_primary %} primary{% endif %}
+              {% if page.is_current_or_ascendant and not page.is_current %} ascendant{% endif %}
+            {% if page.has_children %} parent{% endif %}
+              {% if forloop.last %} last{% endif %}
+              {% if page.has_children %} parent-page{% endif %}">
+                <a href="{{ page.get_absolute_url }}">{{ page.title|upper }}</a>
+                {% if page.is_primary %}
+                {% page_menu page "pages/menus/active_branch_children.html" %}
+                {% endif %}
+            </li>
+          {% endif %}
+        {% endfor %}
+    </ul>
+
+{% endspaceless %}

@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load mezzanine_tags keyword_tags %}
+
+{% block slides %}{% if page.slide_set.all %}
+  {% include "pages/flexslider.html" %}
+{% endif %}{% endblock %}
+{% block meta_title %}{{ page.meta_title }}{% endblock %}
+
+{% block meta_keywords %}{% metablock %}
+{% keywords_for page as keywords %}
+{% for keyword in keywords %}
+    {% if not forloop.first %}, {% endif %}
+    {{ keyword }}
+{% endfor %}
+{% endmetablock %}{% endblock %}
+
+{% block meta_description %}{% metablock %}
+{{ page.description }}
+{% endmetablock %}{% endblock %}
+
+{% block title %}
+{% editable page.title %}{{ page.title }}{% endeditable %}
+{% endblock %}
+
+{% block main %}
+{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/layouts/layouts-style.css"/>
+<style>
+    #slider-bg {
+        background: url({{ STATIC_URL }}img/lamborghini.jpg) no-repeat scroll center top;
+        padding: 70px 0;
+    }
+</style>
+{% endblock extra_css %}

@@ -1,0 +1,49 @@
+{% load i18n mezzanine_tags %}
+
+<div class="span12">
+</div>
+
+
+  <!--slider-bg starts-->
+  <div id="slider-bg">
+    <div class="container">
+      <div class="row content-top">
+
+        <!--slides starts-->
+
+        <div class="span12">
+
+            <ul class="rslides hidden-desktop">{% for image in page.slide_set.all %}
+                <li><img src="{{ MEDIA_URL }}{% thumbnail image.file 940 0 %}" alt="{{ image.description }}"/></li>
+            {% endfor %}</ul>
+
+          <div id="slider" class="flexslider visible-desktop">
+            <ul class="slides">
+
+              <!--slide one starts-->
+
+{% for slide in page.slide_set.all %}
+              <li>
+                <div class="row">
+                  <div class="span6">
+                      <h1>{{ slide.title|capfirst }}</h1>
+                      <h2>{{ slide.sub_title|capfirst }}</h2>
+                      {{ slide.content|richtext_filter|safe }}
+                  </div>
+                  <div class="span6">
+                  <img src="{{ MEDIA_URL }}{% thumbnail slide.file 460 0 %}" alt="{{ slide.description }}" title="{{ slide.description }}"/> </div>
+                  </div>
+              </li>
+{% endfor %}
+	          </ul>
+         </div>
+	</div>
+
+       <!--thumbnails starts-->
+
+        <!--thumbnails ends-->
+      </div>
+    </div>
+  </div>
+  <!--slider-bg ends-->
+

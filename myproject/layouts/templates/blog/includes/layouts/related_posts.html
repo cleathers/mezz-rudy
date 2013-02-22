@@ -1,0 +1,24 @@
+{% load mezzanine_tags i18n %}
+<h2>
+<span class="lft"></span><span class="mid">You Might Also Like</span><span class="rt"></span>
+</h2>
+<div class="related-posts">
+<div class="row">
+<ul class="thumbnails">
+    {% for relatedPost in blog_post.related_posts.all %}
+    {% if forloop.counter < 4 %}
+    <li class="span2 related-post">
+        {% if relatedPost.featured_image %}
+        <a class="" href="{{ relatedPost.get_absolute_url }}"><img src="{{ MEDIA_URL }}{% thumbnail relatedPost.featured_image 170 100 %}"/>
+        </a>
+        {% endif %}
+        <h4><a href="{{ relatedPost.get_absolute_url }}">{{ relatedPost.title }}</a></h4>
+        <p>
+            {{ relatedPost.description|striptags|truncatewords:20 }}
+        </p>
+    </li>
+    {% endif %}
+    {% endfor %}
+</ul>
+</div>
+</div>

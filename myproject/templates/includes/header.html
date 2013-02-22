@@ -1,0 +1,47 @@
+<script type="text/javascript">
+    // THIS SCRIPT DETECTS THE ACTIVE ELEMENT AND ADDS ACTIVE CLASS
+    (function($){
+        $(document).ready(function(){
+            var pathname = window.location.pathname,
+                    page = pathname.split(/[/ ]+/).pop(),
+                    menuItems = $('#menu a');
+            menuItems.each(function(){
+                var mi = $(this),
+                        miHrefs = mi.attr("href"),
+                        miParents = mi.parents('li');
+                if(page == miHrefs) {
+                    miParents.addClass("active");
+                }
+            });
+        });
+    })(jQuery);
+</script>
+
+<!-- logo -->
+<a href="/" title="{% if settings.SITE_TITLE %}{{ settings.SITE_TITLE }}{% endif %}" id="logo"></a>
+
+<!-- menu -->
+<div id="menu">
+
+  {% page_menu "pages/menus/dropdown.html" %}
+
+</div><!--end menu -->
+<div class="clear"></div>
+
+<!-- search -->
+<div id="search">
+      {% search_form "all" %}
+</div><!-- end search -->
+
+<!-- social icons -->
+<div id="social_icons">
+    <ul class="social_icons colorWhite">
+        <li><a href="http://www.facebook.com/pages/Rudy-Jaramillo/102987426539765" target="_blank" rel="nofollow" title="Facebook" class="social_iconF">F</a></li>
+        <li><a href="http://twitter.com/@RudyJaramillo1" target="_blank" rel="nofollow" title="Twitter" class="social_iconL">L</a></li>
+        <li><a href="http://plus.google.com/103189403559325402130" target="_blank" rel="nofollow" title="Google Plus" class="social_iconGpl">}</a></li>
+        <li><a href="http://www.youtube.com/watch?v=VjGV6Sg-B8A&feature=youtu.be" target="_blank" rel="nofollow" title="Youtube" class="social_iconX">X</a></li>
+        <li><a href="#" target="_blank" rel="nofollow" title="Vimeo" class="social_iconV">V</a></li>
+        <li><a href="#" target="_blank" rel="nofollow" title="Stumble Upon" class="social_iconS">S</a></li>
+    </ul>
+</div><!-- end social_icons -->
+<div class="clear"></div>
