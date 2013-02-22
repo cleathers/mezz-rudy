@@ -1,29 +1,11 @@
-<script type="text/javascript">
-    // THIS SCRIPT DETECTS THE ACTIVE ELEMENT AND ADDS ACTIVE CLASS
-    (function($){
-        $(document).ready(function(){
-            var pathname = window.location.pathname,
-                    page = pathname.split(/[/ ]+/).pop(),
-                    menuItems = $('#menu a');
-            menuItems.each(function(){
-                var mi = $(this),
-                        miHrefs = mi.attr("href"),
-                        miParents = mi.parents('li');
-                if(page == miHrefs) {
-                    miParents.addClass("active");
-                }
-            });
-        });
-    })(jQuery);
-</script>
-
+{% load pages_tags mezzanine_tags i18n future %}
 <!-- logo -->
 <a href="/" title="{% if settings.SITE_TITLE %}{{ settings.SITE_TITLE }}{% endif %}" id="logo"></a>
 
 <!-- menu -->
 <div id="menu">
 
-  {% page_menu "pages/menus/dropdown.html" %}
+  {% page_menu "pages/menus/header_menu.html" %}
 
 </div><!--end menu -->
 <div class="clear"></div>
